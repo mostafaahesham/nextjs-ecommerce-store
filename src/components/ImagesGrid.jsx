@@ -15,7 +15,7 @@ const ImagesGridStyle = styled.div`
   grid-template-columns: 1fr 1fr;
   width: 100%;
   gap: 1rem;
-  max-height: 30%;
+  max-height: 100%;
   overflow-y: scroll;
 `;
 

@@ -29,7 +29,7 @@ const Product = ({
         ) : (
           <OldPriceStyle>EGP {oldPrice}</OldPriceStyle>
         )}
-        <BrandImageStyle title={brandName} src={brandImage} alt={name} />
+        <BrandImageStyle title={brandName} src={brandImage} alt={brandName} />
       </DetailsContainerStyle>
     </ProductContainer>
   );

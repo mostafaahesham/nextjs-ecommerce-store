@@ -12,10 +12,14 @@ const Variant = ({ image, name }) => {
 const VariantStyle = styled.div`
   display: flex;
   flex-direction: column;
+  
   img {
+    transition: all 0.2s ease;
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.2);
+    }
     width: 5rem;
-    border: 1px solid #808080;
-    border-radius: 1rem;
   }
   p {
     text-align: center;
