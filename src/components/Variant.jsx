@@ -1,8 +1,8 @@
 import { styled, css } from "styled-components";
 
-const Variant = ({ image, name }) => {
+const Variant = ({ image, name , onClick}) => {
   return (
-    <VariantStyle>
+    <VariantStyle onClick={onClick}>
       <img src={image} />
       <p>{name}</p>
     </VariantStyle>
@@ -18,6 +18,8 @@ const VariantStyle = styled.div`
     &:hover {
       cursor: pointer;
       transform: scale(1.2);
+      padding-left:1rem;
+      padding-right:1rem;
     }
     width: 5rem;
   }

@@ -8,9 +8,10 @@ const Product = ({
   image,
   brandImage,
   brandName,
+  onClick,
 }) => {
   return (
-    <ProductContainer>
+    <ProductContainer onClick={onClick}>
       <ImageContainer>
         <ImageStyle src={image} alt={name} />
       </ImageContainer>
@@ -36,8 +37,15 @@ const Product = ({
 };
 
 const ProductContainer = styled.div`
-  max-width: 1 rem;
+  max-width: 20rem;
   line-height: 1.1;
+  transition: all 0.2s ease;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    padding-left:1rem;
+    padding-right:1rem;
+  }
 `;
 
 const DetailsContainerStyle = styled.div`
@@ -68,7 +76,7 @@ const TitleStyle = styled.text`
   padding-left: 15px;
   padding-right: 15px;
   padding-bottom: 10px;
-  overflow-wrap: word-break;
+  word-wrap: break-word;
   grid-area: title;
 `;
 
@@ -78,7 +86,7 @@ const DescriptionStyle = styled.text`
   padding-left: 15px;
   padding-right: 15px;
   padding-bottom: 10px;
-  overflow-wrap: word-break;
+  word-wrap: break-word;
   grid-area: description;
 `;
 
@@ -111,9 +119,13 @@ const DiscountStyle = styled.text`
 const BrandImageStyle = styled.img`
   width: 4rem;
   height: 4rem;
-  object-fit:contain;
-  padding-left: 8rem;
+  object-fit: contain;
   grid-area: brandImage;
+  transition: all 0.1s ease;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+  }
 `;
 
 export default Product;

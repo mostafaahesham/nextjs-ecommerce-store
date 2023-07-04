@@ -4,6 +4,7 @@ import { styled, css } from "styled-components";
 import ImageGrid from "./ImagesGrid";
 import Variant from "./Variant";
 import Product from "./Product";
+import Size from "./Size";
 import Axios from "axios";
 import { useState, useEffect } from "react";
 
@@ -19,15 +20,17 @@ const ProductDetails = ({
   brandImage,
   brandName,
 }) => {
-  const [product, setProduct] = useState("");
-  const [relatedProducts, setRelatedProducts] = useState("");
-  const [subCategoryId, setSubCategoryId] = useState("");
+  const [product, setProduct] = useState();
+  const [relatedProducts, setRelatedProducts] = useState();
+  const [subCategoryId, setSubCategoryId] = useState();
+  const [variantIndex, setVariantIndex] = useState(0);
 
+  const handleClick = (index) => setVariantIndex(index);
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchProduct = async () => {
       try {
         const productResponse = await Axios.get(
-          "https://e-shop-app-gf69.onrender.com/api/v1/products/647b4f36396ebb38fe9b68e1"
+          "https://e-shop-app-gf69.onrender.com/api/v1/products/647b4f35396ebb38fe9b68c6"
         );
         console.log(productResponse.data.data);
         setProduct(productResponse.data.data);
@@ -37,7 +40,7 @@ const ProductDetails = ({
       }
     };
 
-    fetchData();
+    fetchProduct();
   }, []);
 
   useEffect(() => {
@@ -62,7 +65,7 @@ const ProductDetails = ({
       <ProductDetailsContainer>
         {product ? (
           <>
-            <ImageGrid images={product.variants[0].variantImages} />
+            <ImageGrid images={product.variants[variantIndex].variantImages} />
             <ProductSummary>
               <ProductType>
                 {product.category.name} / {product.subCategory.name} /{" "}
@@ -111,15 +114,33 @@ const ProductDetails = ({
               <AvailableVariantsSection>
                 <h4>AVAILABLE VARIANTS</h4>
                 <AvailableVariants>
-                  {product.variants.map((variant) => {
-                    <Variant
-                      image={variant.variantImage}
-                      name={variant.color}
-                    />;
-                  })}
-                  a7a
+                  {product.variants ? (
+                    product.variants.map((variant, index) => (
+                      <Variant
+                        onClick={() => handleClick(index)}
+                        key={variant.id}
+                        image={variant.variantImage}
+                        name={variant.color}
+                      />
+                    ))
+                  ) : (
+                    <></>
+                  )}
                 </AvailableVariants>
               </AvailableVariantsSection>
+              {/* <AvailableSizesSection>
+                 <h4>AVAILABLE SIZES</h4>
+                <AvailableSizes>
+                   {
+                    product.variants[variantIndex].sizes.map((size) => (
+                      <Size
+                        key={size.id}
+                        name={size.name}
+                      />
+                    ))
+                    }
+                </AvailableSizes>
+              </AvailableSizesSection> */}
             </ProductSummary>
           </>
         ) : (
@@ -128,21 +149,21 @@ const ProductDetails = ({
       </ProductDetailsContainer>
       <h2>RELATED PRODUCTS</h2>
       <RelatedProductContainer>
-      {relatedProducts
-        ? relatedProducts.map((product) => (
-            <Product
-              key={product.id}
-              name={product.name}
-              description={product.description}
-              oldPrice={product.currentPrice}
-              newPrice={product.discountedPrice}
-              image={product.variants[0].variantImage}
-              brandImage={product.brand.image}
-              brandName={product.brand.name}
-            />
-          ))
-        : null}
-        </RelatedProductContainer>
+        {relatedProducts
+          ? relatedProducts.map((product) => (
+              <Product
+                key={product.id}
+                name={product.name}
+                description={product.description}
+                oldPrice={product.currentPrice}
+                newPrice={product.discountedPrice}
+                image={product.variants[0].variantImage}
+                brandImage={product.brand.image}
+                brandName={product.brand.name}
+              />
+            ))
+          : null}
+      </RelatedProductContainer>
     </PageContainer>
   );
 };
@@ -154,6 +175,7 @@ const PageContainer = styled.div`
     text-align: center;
     font-size: 2rem;
   }
+  // gap:3rem;
 `;
 
 const ProductDetailsContainer = styled.div`
@@ -233,6 +255,19 @@ const AvailableVariants = styled.div`
   gap: 0.5rem;
 `;
 
+const AvailableSizesSection = styled.div`
+  display: flex;
+  width: auto;
+  height: 10rem;
+  flex-direction: column;
+`;
+
+const AvailableSizes = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+`;
+
 const ProductDescription = styled.text``;
 
 const ProductSummary = styled.div``;
@@ -240,6 +275,8 @@ const ProductSummary = styled.div``;
 const RelatedProductContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
 `;
 
 export default ProductDetails;
