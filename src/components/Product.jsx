@@ -1,13 +1,16 @@
 import { styled, css } from "styled-components";
+import ProductRating from "@/components/ProductRating";
+import ProductPrice from "@/components/ProductPrice";
 
 const Product = ({
   name,
   description,
-  oldPrice,
-  newPrice,
+  currentPrice,
+  discountedPrice,
+  discount,
   image,
-  brandImage,
-  brandName,
+  starRating,
+  ratingsCount,
   onClick,
 }) => {
   return (
@@ -15,48 +18,40 @@ const Product = ({
       <ImageContainer>
         <ImageStyle src={image} alt={name} />
       </ImageContainer>
-      <DetailsContainerStyle>
-        <TitleStyle>{name}</TitleStyle>
-        <DescriptionStyle>{description}</DescriptionStyle>
-
-        {newPrice ? (
-          <>
-            <OldPriceStyle strikethrough>EGP {oldPrice}</OldPriceStyle>
-            <NewPriceStyle> EGP {newPrice}</NewPriceStyle>
-            <DiscountStyle>
-              Save {Math.ceil(100 * (1 - newPrice / oldPrice))}%
-            </DiscountStyle>
-          </>
-        ) : (
-          <OldPriceStyle>EGP {oldPrice}</OldPriceStyle>
-        )}
-        <BrandImageStyle title={brandName} src={brandImage} alt={brandName} />
-      </DetailsContainerStyle>
+      <TitleStyle>{name}</TitleStyle>
+      <DescriptionStyle>{description}</DescriptionStyle>
+      {/* <Row> */}
+      <ProductRating
+        scale={1.0}
+        starRating={starRating}
+        ratingsCount={ratingsCount}
+      />
+        <ProductPrice
+          scale={1.0}
+          currentPrice={currentPrice}
+          discountedPrice={discountedPrice}
+          discount={discount}
+        />
+      {/* </Row> */}
     </ProductContainer>
   );
 };
 
 const ProductContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  gap: 1rem;
   max-width: 20rem;
   line-height: 1.1;
   transition: all 0.2s ease;
   &:hover {
     cursor: pointer;
     transform: scale(1.1);
-    padding-left:1rem;
-    padding-right:1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
-`;
-
-const DetailsContainerStyle = styled.div`
-  font-family: Gill Sans, Gill Sans MT, Calibri, sans-serif;
-  display: grid;
-  grid-template-areas:
-    "title title"
-    "description description"
-    "oldPrice brandImage"
-    "newPrice brandImage"
-    "discount brandImage";
 `;
 
 const ImageContainer = styled.div`
@@ -73,9 +68,7 @@ const ImageStyle = styled.img`
 const TitleStyle = styled.text`
   color: #666;
   font-weight: bold;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-bottom: 10px;
+  // padding-left: 15px;
   word-wrap: break-word;
   grid-area: title;
 `;
@@ -83,49 +76,14 @@ const TitleStyle = styled.text`
 const DescriptionStyle = styled.text`
   color: #000;
   font-weight: bold;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-bottom: 10px;
+  // padding-left: 15px;
   word-wrap: break-word;
   grid-area: description;
 `;
 
-const OldPriceStyle = styled.text`
-  color: #666;
-  ${(props) =>
-    props.strikethrough &&
-    css`
-      text-decoration: line-through;
-    `}
-  padding-left: 15px;
-  grid-area: oldPrice;
-`;
-
-const NewPriceStyle = styled.text`
-  color: #ff0000;
-  padding-left: 15px;
-  font-weight: bold;
-  grid-area: newPrice;
-`;
-
-const DiscountStyle = styled.text`
-  color: #ffbf00;
-  font-weight: bold;
-  padding-left: 15px;
-  grid-area: discount;
-  padding-top: 15px;
-`;
-
-const BrandImageStyle = styled.img`
-  width: 4rem;
-  height: 4rem;
-  object-fit: contain;
-  grid-area: brandImage;
-  transition: all 0.1s ease;
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.2);
-  }
-`;
+const Row = styled.div`
+display: flex;
+flex-direction:row;
+`
 
 export default Product;

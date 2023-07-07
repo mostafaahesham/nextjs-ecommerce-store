@@ -1,9 +1,8 @@
 import { styled, css } from "styled-components";
 
-const ProductPrice = ({ currentPrice, discountedPrice, discount }) => {
+const ProductPrice = ({ currentPrice, discountedPrice, discount, scale }) => {
   return (
-    <ProductPriceStyle>
-      <h4>PRICE</h4>
+    <ProductPriceStyle scale={scale}>
       {discountedPrice ? (
         <>
           <DiscountedPrice>EGP {discountedPrice}</DiscountedPrice>
@@ -21,12 +20,13 @@ const ProductPrice = ({ currentPrice, discountedPrice, discount }) => {
 };
 
 const ProductPriceStyle = styled.div`
+  transform: scale(${(props) => props.scale});
   display: grid;
-  grid-template-columns: fit-content(40%);
-  h4{
-    margin-bottom:-1rem;
+  grid-template-columns: fit-content(100%);
+  h4 {
+    margin-bottom: -1rem;
   }
-  flex:1
+  flex: 1;
 `;
 
 const CurrentPrice = styled.p`
@@ -54,7 +54,7 @@ const Discount = styled.p`
   color: #ffbf00;
   font-weight: bold;
   align-self: self-start;
-  margin-top:-1rem;
+  margin-top: -1rem;
 `;
 
 export default ProductPrice;

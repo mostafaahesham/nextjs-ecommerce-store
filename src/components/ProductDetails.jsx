@@ -80,6 +80,7 @@ const ProductDetails = ({
                   {product.subCategory.name}
                 </ProductSubCategory>
               </ProductSummary>
+              <h4>PRICE</h4>
               <ProductRatingAndPrice>
                 <ProductPrice
                   style={{ flex: 1 }}
@@ -138,20 +139,23 @@ const ProductDetails = ({
       )}
       <h2>RELATED PRODUCTS</h2>
       <RelatedProducts>
-        {relatedProducts
-          ? relatedProducts.map((product) => (
-              <Product
-                key={product.id}
-                name={product.name}
-                description={product.description}
-                oldPrice={product.currentPrice}
-                newPrice={product.discountedPrice}
-                image={product.variants[0].variantImage}
-                brandImage={product.brand.image}
-                brandName={product.brand.name}
-              />
-            ))
-          : null}
+        {relatedProducts ? (
+          relatedProducts.map((product) => (
+            <Product
+              key={product.id}
+              name={product.name}
+              description={product.description}
+              currentPrice={product.currentPrice}
+              discountedPrice={product.discountedPrice}
+              discount={product.discount}
+              starRating={product.ratingsAverage}
+              ratingsCount={product.ratingsCount}
+              image={product.variants[0].variantImage}
+            />
+          ))
+        ) : (
+          <></>
+        )}
       </RelatedProducts>
     </BodyContainer>
   );
@@ -164,7 +168,7 @@ const BodyContainer = styled.div`
     text-align: center;
     font-size: 2rem;
   }
-  gap:2rem;
+  gap: 2rem;
 `;
 
 const ProductContainer = styled.div`
