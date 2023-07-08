@@ -2,6 +2,7 @@
 
 import { styled, css } from "styled-components";
 import ImageGrid from "./ImagesGrid";
+import ImageSlider from "./ImageSlider";
 import Variant from "./Variant";
 import Product from "./Product";
 import Size from "@/components/Size";
@@ -68,7 +69,7 @@ const ProductDetails = ({
       {product ? (
         <>
           <ProductContainer>
-            <ImageGrid images={product.variants[variantIndex].variantImages} />
+            <ImageSlider images={product.variants[variantIndex].variantImages} />
             <ProductDetail>
               <ProductSummary>
                 <ProductType>
