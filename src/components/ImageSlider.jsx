@@ -10,11 +10,15 @@ const ImageSlider = ({ images }) => {
   };
 
   useEffect(() => {
-    const isImageSelected = images.includes(selectedImage);
+    const handleImageSelection = () => {
+      const isImageSelected = images.includes(selectedImage);
 
-    if (!isImageSelected) {
-      setSelectedImage(images[0]);
-    }
+      if (!isImageSelected) {
+        setSelectedImage(images[0]);
+      }
+    };
+
+    handleImageSelection();
   }, [images, selectedImage]);
 
   return (
@@ -37,10 +41,12 @@ const SliderContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  gap: 1rem;
 `;
 const SelectedImage = styled.img`
   width: 80%;
   border-radius: 2rem;
+  object-fit: contain;
 `;
 
 const UnSelectedImage = styled.img`

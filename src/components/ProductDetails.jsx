@@ -1,16 +1,16 @@
 "use client";
 
 import { styled, css } from "styled-components";
-import ImageGrid from "./ImagesGrid";
 import ImageSlider from "./ImageSlider";
 import Variant from "./Variant";
 import Product from "./Product";
 import Size from "@/components/Size";
 import ProductPrice from "@/components/ProductPrice";
 import ProductRating from "@/components/ProductRating";
+import ProductReviews from "@/components/ProductReviews";
 import AddToCart from "@/components/AddToCart";
 import Axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef  } from "react";
 
 const ProductDetails = ({
   category,
@@ -28,13 +28,18 @@ const ProductDetails = ({
   const [relatedProducts, setRelatedProducts] = useState();
   const [subCategoryId, setSubCategoryId] = useState();
   const [variantIndex, setVariantIndex] = useState(0);
+  const [reviewsWindowOpen, setReviewsWindowOpen] = useState(false);
+  const windowRef = useRef(null);
 
-  const handleClick = (index) => setVariantIndex(index);
+  const handleReviewsButtonClick = () => setReviewsWindowOpen(true);
+  const handleReviewsWindowClose = () => setReviewsWindowOpen(false);
+  const handleVariantClick = (index) => setVariantIndex(index);
+  
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const productResponse = await Axios.get(
-          "https://e-shop-app-gf69.onrender.com/api/v1/products/64a6801eecbff03b0a2c32ab"
+          "https://e-shop-app-gf69.onrender.com/api/v1/products/64aabbc82afc3f3f7b96051e"
         );
         console.log(productResponse.data.data);
         setProduct(productResponse.data.data);
@@ -64,12 +69,28 @@ const ProductDetails = ({
 
     fetchRelatedProducts();
   }, [subCategoryId]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (windowRef.current && !windowRef.current.contains(event.target)) {
+        setReviewsWindowOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <BodyContainer>
       {product ? (
         <>
           <ProductContainer>
-            <ImageSlider images={product.variants[variantIndex].variantImages} />
+            <ImageSlider
+              images={product.variants[variantIndex].variantImages}
+            />
             <ProductDetail>
               <ProductSummary>
                 <ProductType>
@@ -93,14 +114,22 @@ const ProductDetails = ({
                   style={{ flex: 1 }}
                   starRating={product.ratingsAverage}
                   ratingsCount={product.ratingsCount}
+                  onClick={handleReviewsButtonClick}
                 />
+                {reviewsWindowOpen && (
+                  <ReviewsWindowOverlay>
+                    <ReviewsWindowContainer ref={windowRef}>
+                      <ProductReviews onClose={handleReviewsWindowClose} reviews={product.reviews} />
+                    </ReviewsWindowContainer>
+                  </ReviewsWindowOverlay>
+                )}
               </ProductRatingAndPrice>
               <AvailableVariants>
                 <h4>AVAILABLE VARIANTS</h4>
                 <Variants>
                   {product.variants.map((variant, index) => (
                     <Variant
-                      onClick={() => handleClick(index)}
+                      onClick={() => handleVariantClick(index)}
                       key={variant.id}
                       image={variant.variantImage}
                       name={variant.color}
@@ -265,6 +294,30 @@ const RelatedProducts = styled.div`
   flex-direction: row;
   justify-content: center;
   gap: 1rem;
+`;
+
+const ReviewsWindowOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.6
+  );
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ReviewsWindowContainer = styled.div`
+  background-color: white;
+  padding: 1rem;
+  border-radius:1.5rem;
 `;
 
 export default ProductDetails;

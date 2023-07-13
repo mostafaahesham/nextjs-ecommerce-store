@@ -20,19 +20,17 @@ const Product = ({
       </ImageContainer>
       <TitleStyle>{name}</TitleStyle>
       <DescriptionStyle>{description}</DescriptionStyle>
-      {/* <Row> */}
-      <ProductRating
-        scale={1.0}
-        starRating={starRating}
-        ratingsCount={ratingsCount}
+      {ratingsCount ? (
+        <ProductRating starRating={starRating} ratingsCount={ratingsCount} />
+      ) : (
+        <></>
+      )}
+
+      <ProductPrice
+        currentPrice={currentPrice}
+        discountedPrice={discountedPrice}
+        discount={discount}
       />
-        <ProductPrice
-          scale={1.0}
-          currentPrice={currentPrice}
-          discountedPrice={discountedPrice}
-          discount={discount}
-        />
-      {/* </Row> */}
     </ProductContainer>
   );
 };
@@ -81,9 +79,5 @@ const DescriptionStyle = styled.text`
   grid-area: description;
 `;
 
-const Row = styled.div`
-display: flex;
-flex-direction:row;
-`
 
 export default Product;

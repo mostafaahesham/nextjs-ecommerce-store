@@ -1,9 +1,26 @@
-import React from 'react'
+"use client";
+
+import React from "react";
+import ProductReviews from "@/components/ProductReviews";
+import { useState } from "react";
 
 const About = () => {
-  return (
-    <div>About</div>
-  )
-}
+  const [windowOpen, setWindowOpen] = useState(false);
 
-export default About
+  const handleButtonClick = () => {
+    setWindowOpen(true);
+  };
+
+  const handleCloseWindow = () => {
+    setWindowOpen(false);
+  };
+
+  return (
+    <div>
+      <button onClick={handleButtonClick}>Open Window</button>
+      {windowOpen && <ProductReviews onClose={handleCloseWindow} reviews={testReviews}/>}
+    </div>
+  );
+};
+
+export default About;

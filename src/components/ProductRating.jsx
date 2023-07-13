@@ -1,7 +1,7 @@
 import { styled, css } from "styled-components";
 import StarRatings from "react-star-ratings";
 
-const ProductRating = ({ starRating, ratingsCount, scale }) => {
+const ProductRating = ({ starRating, ratingsCount, scale, onClick }) => {
   return (
     <ProductRatingStyle scale={scale}>
       {ratingsCount ? (
@@ -11,12 +11,13 @@ const ProductRating = ({ starRating, ratingsCount, scale }) => {
               starDimension={"2rem"}
               starSpacing={"0.1rem"}
               rating={starRating}
+              starRatedColor={"orange"}
               numberOfStars={5}
               name="rating"
             />
             <RatingValue>{starRating}</RatingValue>
           </StarRatingContainer>
-          <AllRatings>click to see all {ratingsCount} review(s)</AllRatings>
+          <AllRatings onClick={onClick} >click to see all {ratingsCount} review(s)</AllRatings>
         </>
       ) : (
         <h4>No Ratings Yet</h4>
@@ -30,6 +31,9 @@ const ProductRatingStyle = styled.div`
   display: grid;
   grid-template-columns: fit-content(100%);
   flex: 1;
+  h4{
+    color:orange;
+  }
 `;
 
 const StarRatingContainer = styled.div`
