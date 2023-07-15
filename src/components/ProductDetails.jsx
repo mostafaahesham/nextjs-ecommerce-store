@@ -39,7 +39,7 @@ const ProductDetails = ({
     const fetchProduct = async () => {
       try {
         const productResponse = await Axios.get(
-          "https://e-shop-app-gf69.onrender.com/api/v1/products/64aabbc82afc3f3f7b96051e"
+          "http://localhost:8000/api/v1/products/64aabbc82afc3f3f7b96051e"
         );
         console.log(productResponse.data.data);
         setProduct(productResponse.data.data);
@@ -57,7 +57,7 @@ const ProductDetails = ({
       if (subCategoryId) {
         try {
           const relatedProductsResponse = await Axios.get(
-            `https://e-shop-app-gf69.onrender.com/api/v1/subcategories/${subCategoryId}/products?limit=100&rand=5`
+            `http://localhost:8000/api/v1/subcategories/${subCategoryId}/products?limit=100&rand=5`
           );
           console.log(relatedProductsResponse.data.data);
           setRelatedProducts(relatedProductsResponse.data.data);

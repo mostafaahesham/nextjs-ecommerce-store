@@ -6,7 +6,7 @@ import { styled } from "styled-components";
 import Axios from "axios";
 import { useState, useEffect, useRef } from "react";
 
-const Test = () => {
+const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,11 +14,11 @@ const Test = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
 
   const validateName = (val) => {
-    return /^[a-zA-Z]+$/.test(val);
+    return /^[a-zA-Z]+$/.test(val) & val.length > 1;
   };
   
   const validateEmail = (val) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2}/.test(val);
   };
   
   const validatePassword = (val) => {
@@ -43,14 +43,14 @@ const Test = () => {
     };
 
     await Axios.post(
-      "https://e-shop-app-gf69.onrender.com/api/v1/auth/signup",
+      "http://localhost:8000/api/v1/auth/signup",
       formData
     )
       .then((response) => {
         console.log(response.data);
       })
       .catch((error) => {
-        console.error(error);
+        console.error(error.response.data.errors.errors);
       });
     console.log(name,email,password,passwordConfirm,phoneNumber);
   };
@@ -130,4 +130,4 @@ const Button = styled.button`
   margin: 1rem;
 `;
 
-export default Test;
+export default SignUp;
